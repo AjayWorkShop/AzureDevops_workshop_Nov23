@@ -1,0 +1,6 @@
+---
+
+apiVserion: V1
+kind: Namespace
+metadata:
+  name: dev_workshop
