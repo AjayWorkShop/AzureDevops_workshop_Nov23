@@ -1,6 +1,42 @@
 ---
-
-apiVserion: V1
+apiVersion: v1
 kind: Namespace
 metadata:
-  name: dev_workshop
+  name: workshop
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: workshop
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: web
+        image: ajaykumarramesh/azuredevopsworkshopnov23:v1.0.0
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  namespace: workshop
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+  - name: http-tcp
+    protocol: TCP
+    port: 80
+    targetPort: 80 
