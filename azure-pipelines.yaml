@@ -26,5 +26,7 @@ stages:
         displayName: 'Kubernetes deploy'
         steps:
           - script: |
+              az aks get-credentials --resource-group myAksResourceGroup --name myAKSCluster
+              kubectl get nodes 
               kubectl apply -f deploy/k8s
               kubectl set image   deploy/nginx-deployment web=$(dockerImage):$(Build.BuildId) -n workshop
