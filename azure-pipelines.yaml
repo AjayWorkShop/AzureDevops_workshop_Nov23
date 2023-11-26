@@ -1,3 +1,30 @@
-# define pool
-# call 3 stages for which templates are already available
-# will pass paramters
+trigger:
+  - dev
+
+pool: default
+variables:
+  dockerImage: ajaykumarramesh/azuredevopsworkshopnov23:v1.0.0
+
+stages:
+  - stage: buildndeploy
+    displayName: 'Build and deploy'
+    jobs:
+      - job: build
+        displayName: 'Build Docker Image Job'
+        steps:
+          - script: |
+              docker image build -t $(dockerImage):$(Build.BuildId) ./src/
+              docker image push $(dockerImage):$(Build.BuildId)
+      - job: terraform
+        displayName: 'creating kubernetes cluster' 
+        steps:
+          - script: |
+              cd deploy/tf_azure
+              terraform init
+              terraform apply -auto-approve
+      - job: kubernetes
+        displayName: 'Kubernetes deploy'
+        steps:
+          - script: |
+              kubectl apply -f deploy/k8s
+              kubectl set image   deploy/nginx-deployment web=$(dockerImage):$(Build.BuildId) -n workshop
