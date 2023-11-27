@@ -3,7 +3,7 @@ trigger:
 
 pool: default
 variables:
-  dockerImage: ajaykumarramesh/azuredevopsworkshopnov23  
+  dockerImage: ajaykumarramesh/azuredevopsworkshopnov23:latest   
 
 stages:
   - stage: buildndeploy
