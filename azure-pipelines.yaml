@@ -28,4 +28,4 @@ stages:
           - script: |
               cd /deploy/k8s
               kubectl apply -f deploapp.yaml
-              kubectl set image  deploy/nginx-deployment web=$(dockerImage):$(Build.BuildId) -n workshop
+  # kubectl set image  deploy/nginx-deployment web=$(dockerImage):$(Build.BuildId) -n workshop
